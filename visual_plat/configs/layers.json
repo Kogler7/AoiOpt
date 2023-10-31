@@ -1,0 +1,131 @@
+{
+  "builtin": {
+    "grid_layer": {
+      "aoi": {
+        "level": -3,
+        "visible": true,
+        "xps_tag": "APS",
+        "save_image": {
+          "enable": false,
+          "width": 100,
+          "height": 100,
+          "max_count": 10,
+          "label": "aoi",
+          "format": "png",
+          "path": "./output/images"
+        },
+        "auto_back": false,
+        "keep_color": false,
+        "event": {
+          "drop": {
+            "npy": "load_npy",
+            "aoi": "load_npy",
+            "png": "load_img",
+            "jpg": "load_img",
+            "pgm": "load_img"
+          },
+          "key": {
+            "control+up": "enlight",
+            "control+down": "delight"
+          },
+          "view": {
+            "drag_end": "auto_back",
+            "zoom_end": "auto_back",
+            "frame_end": "look_at",
+            "frame_begin": "look_at_cancel"
+          }
+        }
+      },
+      "traj": {
+        "level": -2,
+        "visible": true,
+        "xps_tag": "TPS",
+        "event": {
+          "drop": {
+            "trj": "load_traj"
+          }
+        }
+      },
+      "parcel": {
+        "level": -1,
+        "visible": true,
+        "xps_tag": "PPS",
+        "event": {
+          "drop": {
+            "prc": "load_parcels"
+          }
+        }
+      },
+      "grids": {
+        "level": 1,
+        "visible": true,
+        "event": {
+          "key": {
+            "control+l": "switch_to_base_lines"
+          },
+          "view": {
+            "update_begin": "disable_base_lines",
+            "update_end": "enable_base_lines"
+          }
+        }
+      },
+      "scale": {
+        "level": 2,
+        "visible": true
+      },
+      "focus": {
+        "level": 3,
+        "visible": true
+      }
+    },
+    "geo_map": {
+      "route": {
+        "level": -4,
+        "visible": true,
+        "xps_tag": "RPS",
+        "event": {
+          "key": {
+            "control+g": "switch_visibility",
+            "control+shift+s": "trans_state"
+          },
+          "drop": {
+            "svg": "render_svg"
+          },
+          "view": {
+            "update_begin": "stop_service",
+            "update_end": "start_service"
+          }
+        }
+      }
+    }
+  },
+  "custom": {
+    "tip": {
+      "level": 0,
+      "visible": true,
+      "xps_tag": "TIP",
+      "event": {
+        "key": {
+          "control+t": "switch_visibility"
+        }
+      }
+    },
+    "mark": {
+      "level": 0,
+      "visible": true,
+      "xps_tag": "MRK",
+      "event": {
+        "key": {
+          "control+m": "switch_visibility"
+        },
+        "view": {
+          "frame_end": "frame_end",
+          "frame_begin": "frame_begin"
+        },
+        "drop": {
+            "map": "load_map"
+        }
+      }
+    }
+  }
+}

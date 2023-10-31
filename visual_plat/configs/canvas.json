@@ -1,0 +1,84 @@
+{
+  "version": {
+    "major": 6,
+    "minor": 0,
+    "patch": 0
+  },
+  "release": false,
+  "preview": {
+    "phase": 1,
+    "patch": 1
+  },
+  "setting": {
+    "mouse_listening": false
+  },
+  "event": {
+    "key": {
+      "space": "state_deputy.pause",
+      "control+space": "state_deputy.block",
+      "left": "state_deputy.back_forward",
+      "right": "state_deputy.fast_forward",
+      "escape": "state_deputy.terminate",
+      "control+s": "state_deputy.snapshot",
+      "control+r": "record",
+      "control+c": "animate2center",
+      "control+n": "create_new_canvas",
+      "control+shift+n": "snapshot_and_create_new_canvas",
+      "control+shift+l": "server_switch",
+      "control+tab": "switch_server_host"
+    }
+  },
+  "config": {
+    "init_size": [
+      1024,
+      768
+    ],
+    "geo_info": {
+      "locate": [
+        31.140,
+        21.290
+      ],
+      "eastern": true,
+      "southern": false
+    },
+    "tooltip": {
+      "anchor_bias": [
+        90,
+        50
+      ],
+      "visible": true
+    },
+    "layout": {
+      "zoom_step": 1,
+      "precision": 0.001,
+      "init_window_size": 10,
+      "min_window_size": 8,
+      "min_grid_gap": 50,
+      "max_grid_level": 10,
+      "grid_convert_factor": 3
+    },
+    "animation": {
+      "duration": 1000,
+      "delay": 0,
+      "easing": "linear"
+    },
+    "record": {
+      "compatible_index": 2,
+      "max_record": 1000
+    },
+    "server": [
+      {
+        "name": "localhost",
+        "url": "http://localhost:8080",
+        "path": "/api/v1",
+        "timeout": 10000
+      },
+      {
+        "name": "localhost",
+        "url": "http://localhost:8080",
+        "path": "/api/v1",
+        "timeout": 10000
+      }
+    ]
+  }
+}
