@@ -49,6 +49,7 @@ class PolicyGradientPFRL:
         # self.signal = self.config.signal
         self.env = AOIVirtualEnv(self.config)
         self.agent = AOIAgent(self.env, self.config)
+        self.config.agent_type=type(self.agent)
         # self.agent = GreedyAgent(self.config)
         self.config.w = self.env.w
         self.config.h = self.env.h
@@ -81,7 +82,9 @@ class PolicyGradientPFRL:
         agent.training = True
         config = self.config
         config.env = env
-        scheduler = torch.optim.lr_scheduler.MultiStepLR(agent.optimizer, milestones=[100, 500, 1000, 2000, 3000, 4000],gamma=0.7)
+
+        lam = lambda f: 1 - f / config.tra_eps
+        scheduler = torch.optim.lr_scheduler.LambdaLR(agent.optimizer, lr_lambda=lam)
 
         # log file
         file_path = os.path.join(config.log_path, 'log.txt')
@@ -179,9 +182,11 @@ class PolicyGradientPFRL:
             msg = agent.agent.get_statistics()
             avg_q, avg_loss = msg[0][1], msg[1][1]
             avg_qs.append(avg_q), avg_losses.append(avg_loss)
-            if best_q < avg_q:
-                best_q, best_episode = avg_q, episode
-                self.save_param()
+            if ep_reward > best_ep_reward:
+                best_ep_reward, best_episode = ep_reward, episode
+                print('[Save] best sum reward now ', ep_reward)
+                if best_episode > 1:
+                    agent.save(config.save_param)
             '''if ep_reward > best_ep_reward:
                 print('best sum reward now ',ep_reward)
                 best_ep_reward = ep_reward
@@ -230,7 +235,7 @@ class PolicyGradientPFRL:
                 i, j = obs['target'][0], obs['target'][1]
 
                 obs, reward, over, rewards = env.step(action)
-                agent.observe(obs, reward, over, reset=False)
+                # agent.observe(obs, reward, over, reset=False)
                 aoi_data = env.state.cpu().numpy()
 
                 if not config.debug_main:
@@ -252,10 +257,7 @@ class PolicyGradientPFRL:
                 if over:
                     rl_aoi = obs['state'].detach().cpu().numpy()
 
-                    if isinstance(agent, AOIAgent):
-                        aoi_data = Louvain_process(rl_aoi, env.matrix, config.env_type)
-                    else:
-                        aoi_data = rl_aoi
+                    aoi_data = Louvain_process(rl_aoi, env.matrix, config)
 
                     if not config.debug_main:
                         info_data = (
@@ -267,7 +269,7 @@ class PolicyGradientPFRL:
                     break
 
             if not config.debug_main:
-                time.sleep(2)
+                time.sleep(sleep_time)
 
             print(f'[{os.getpid()}] Env test is over.')
 
@@ -285,19 +287,6 @@ class PolicyGradientPFRL:
 
             test_ans = aoi_data
         return test_ans
-
-    def save_param(self):
-        # save the parameter
-        config = self.config
-        agent = self.agent
-        best_model = agent.net.state_dict()
-        best_model_mean, best_model_std = agent.input_mean, agent.input_std
-        if config.save_param:
-            torch.save(best_model, config.save_param)
-            best_mean, best_std = best_model_mean, best_model_std
-            mean_std = torch.stack([best_mean,best_std],dim=0).detach().cpu().numpy()
-            mean_std_file = config.save_param.replace('.pth', '.npy')
-            np.save(mean_std_file, mean_std)
 
 def Louvain_single_process(state, matrix):
     h, w = state.shape[:2]
@@ -339,16 +328,17 @@ def Louvain_single_process(state, matrix):
     return grid
 
 
-def Louvain_process(state, matrix,optim_type='synthetic'):
-    if optim_type == 'synthetic':
-        state1 = Louvain_single_process(state, matrix)
-    else:
-        state0 = state
-        flag = True
-        while flag:
-            state1 = Louvain_single_process(state0, matrix)
-            if (state1==state0).all():
-                flag = False
-            else:
-                state0 = state1
+def Louvain_process(state, matrix,config):
+    if config.agent_type == 'AOIAgent':
+        if config.env_type == 'synthetic':
+            state1 = Louvain_single_process(state, matrix)
+        else:
+            state0 = state
+            flag = True
+            while flag:
+                state1 = Louvain_single_process(state0, matrix)
+                if (state1==state0).all():
+                    flag = False
+                else:
+                    state0 = state1
     return state1

@@ -13,6 +13,7 @@ class KeyConfig:
                                  help='the mode to run the code: train_test, train, test')
         self.parser.add_argument('--name', type=str, help='the name of the data: n_n', required=True)
         self.parser.add_argument('--env_type', type=str, choices=['synthetic','real'],required=True)
+        self.parser.add_argument('--batch', type=int, default=64, help='the batch size used')
         self.parser.add_argument('--device', type=int, help='-1 is CPU,others is GPU', default=-1, required=False)
         self.parser.add_argument('--model_name', type=str, help='model name', required=True)
         self.parser.add_argument('--tra_eps', type=int, default=1000, help='the training number of episodes')
