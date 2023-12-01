@@ -19,23 +19,13 @@ def value(v,C):
     return con*dist_panelty
 
 if __name__ == '__main__':
-    mode = 'synthetic'
+    h, w = 6, 6
+    tau = 4
+    file = os.path.join(ws, f'data/synthetic_data/{h}_{w}/matrix.npy')
+    matrix = np.load(file)
+    print(matrix.shape)
+    matirx = (matrix - matrix.min()) / (matrix.max() - matrix.min())
 
-    if mode=='synthetic':
-        h, w = 6, 6
-        tau = 4
-        file = os.path.join(ws, f'data/synthetic_data/{h}_{w}/matrix.npy')
-        matrix = np.load(file)
-        print(matrix.shape)
-        matirx = (matrix - matrix.min()) / (matrix.max() - matrix.min())
-    else:
-        file = os.path.join(ws, 'data/real_data/trajectory.csv')
-        print(f'read data {file}')
-        dataHandler = DataHandler(filepath=file, header=0)  # , nrows=5e4
-        [h, w], matrix, map, parcle_num, parcels = dataHandler.handle_lonlat(delta_lon=0.0001875,
-                                                                 delta_lat=0.0001739,
-                                                                 lon_range=[121.4910, 121.4940],
-                                                                 lat_range=[31.161, 31.157])
 
     label = np.arange(h*w)
 

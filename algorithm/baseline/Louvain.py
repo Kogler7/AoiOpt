@@ -62,19 +62,9 @@ def Louvain_process(state, matrix):
     return state1
 
 if __name__=='__main__':
-    mode = 'synthetic'
     # read matrix
-    if mode == 'synthetic':
-        h, w = 10, 10
-        matrix = np.load(f'../../data/synthetic_data/{h}_{w}/matrix.npy')
-    else:
-        file = os.path.join(ws, 'data/real_data/trajectory.csv')
-        print(f'read data {file}')
-        dataHandler = DataHandler(filepath=file, header=0)  # , nrows=5e4
-        [h, w], matrix, map, parcle_num, parcels = dataHandler.handle_lonlat(delta_lon=0.0001875,
-                                                                             delta_lat=0.0001739,
-                                                                             lon_range=[121.4910, 121.4940],
-                                                                             lat_range=[31.161, 31.157])
+    h, w = 10, 10
+    matrix = np.load(f'../../data/synthetic_data/{h}_{w}/matrix.npy')
 
     # Louvain
     state = (np.arange(h * w) + 1).reshape([h, w])

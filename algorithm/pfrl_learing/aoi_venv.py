@@ -42,14 +42,14 @@ class AOIVirtualEnv():
 
         self.map, self.matrix = config.map, config.matrix
         self.net_map = config.net_map
-        self.road_aoi = torch.from_numpy(config.road_aoi)
+        self.road_aoi = config.road_aoi
 
     def reset(self):
         """
         reset the environment
         """
         config = self.config
-        self.state = config.state.clone().to(self.device)
+        self.state = torch.arange(1, self.w * self.h + 1).to(config.device).reshape([self.h, self.w])
 
         # reset border index
         self.border_index = 0

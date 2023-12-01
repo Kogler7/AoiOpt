@@ -88,10 +88,11 @@ class Config:
                             net_map[k, i, j] = matrix[i * grid.w + j, i1 * grid.w + j1] + matrix[
                                 i1 * grid.w + j1, i * grid.w + j]
             net_map = (net_map - net_map.mean()) / net_map.std()
-            self.state = torch.from_numpy(grid.grid).int()
-            self.traj, self.matrix, self.map, self.net_map = traj.trajectory, matrix, map, net_map
-            self.road_aoi = pd.read_csv(self.road_aoi_path, header=None).values
+            self.grid = torch.from_numpy(grid.grid).int()
+            road_aoi = pd.read_csv(self.road_aoi_path, header=None).values
             self.h, self.w = grid.h, grid.w
+            self.matrix, self.map, self.net_map,self.road_aoi = torch.from_numpy(matrix).to(self.device), torch.from_numpy(map).to(
+                self.device), torch.from_numpy(net_map).to(self.device),torch.from_numpy(road_aoi).to(self.device)
         else:
             # real world data
             self.data_dir = './data/real_data/' + self.opt.name
@@ -104,8 +105,8 @@ class Config:
                 read_start = time.time()
                 [self.h, self.w], matrix, map, parcle_num, parcels = read_real_data(delta_lon=0.0001875,
                                                                                     delta_lat=0.0001739,
-                                                                                    lon_range=[121.4910, 121.4940],
-                                                                                    lat_range=[31.161, 31.157],
+                                                                                    lon_range=[121.4910, 121.4938125],
+                                                                                    lat_range=[31.1606522, 31.1576956],
                                                                                     )
                 read_end = time.time()
                 print(f'read used {read_end - read_start:.2f}s.')

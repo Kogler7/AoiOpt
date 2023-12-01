@@ -187,10 +187,6 @@ class PolicyGradientPFRL:
                 print('[Save] best sum reward now ', ep_reward)
                 if best_episode > 1:
                     agent.save(config.save_param)
-            '''if ep_reward > best_ep_reward:
-                print('best sum reward now ',ep_reward)
-                best_ep_reward = ep_reward
-                best_ep_reward_model = self.agent.net.state_dict()'''
 
             end_time = time.time()
 

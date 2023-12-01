@@ -1,0 +1,11 @@
+mode,name,model_name,model,max_erg,tra_eps,traj_reward_weight,road_reward_weight,device,env_type
+test,10_10,model_10_10_m1_t500_t0.6_r0.4,DoubleDQN,1,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m2_t500_t0.6_r0.4,DoubleDQN,2,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m3_t500_t0.6_r0.4,DoubleDQN,3,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m4_t500_t0.6_r0.4,DoubleDQN,4,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m5_t500_t0.6_r0.4,DoubleDQN,5,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m6_t500_t0.6_r0.4,DoubleDQN,6,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m7_t500_t0.6_r0.4,DoubleDQN,7,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m8_t500_t0.6_r0.4,DoubleDQN,8,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m9_t500_t0.6_r0.4,DoubleDQN,9,500,0.6,0.4,-1,synthetic
+test,10_10,model_10_10_m10_t500_t0.6_r0.4,DoubleDQN,10,500,0.6,0.4,-1,synthetic

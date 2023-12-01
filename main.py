@@ -27,9 +27,6 @@ config = Config(opts)
 
 
 def main():
-    options = KeyConfig()
-    opts = options.parse()
-    config = Config(opts)
     aoi_learning = PolicyGradientPFRL(config)
     train_mode, test_mode = False, False
     if opts.mode == 'train':
@@ -41,8 +38,8 @@ def main():
         aoi_learning.config.load_model = False
         aoi_learning.config.train = True
         aoi_learning.config.test = False
-        # VisualPlatform.launch(async_task=aoi_learning.execute, canvas_config=canvas_config)
-        aoi_learning.execute()
+        VisualPlatform.launch(async_task=aoi_learning.execute, canvas_config=canvas_config)
+        # aoi_learning.execute()
     if test_mode:
         aoi_learning.config.load_model = True
         aoi_learning.config.train = False
